@@ -34,6 +34,8 @@
     <!-- Memanggil script tambahan -->
     @yield('scripts')
 
+    @include('components.toast')
+
 </body>
 
 </html>
