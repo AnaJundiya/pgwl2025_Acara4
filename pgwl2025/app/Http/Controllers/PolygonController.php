@@ -40,6 +40,7 @@ class PolygonController extends Controller
                 'name' => 'required|unique:polygon,name',
                 'description' => 'required',
                 'geom_polygon' => 'required',
+                'image' => 'nullable|mimes:jpg,jpeg,png|max:1024',
             ],
             [
                 'name.required' => 'Name is required',
@@ -48,11 +49,24 @@ class PolygonController extends Controller
                 'geom_polygon.required' => 'Location is required',
             ]
         );
+        //Create images directory if not exists
+        if (!is_dir('storage/images')) {
+            mkdir('./storage/images', 0777);
+        }
 
+        //Get image file
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_polygon." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+        } else {
+            $name_image = null;
+        }
         $data = [
             'geom' => $request->geom_polygon,
             'name' => $request->name,
             'description' => $request->description,
+            'image' => $name_image,
         ];
 
         //Create Data

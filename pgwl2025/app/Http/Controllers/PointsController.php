@@ -22,7 +22,7 @@ class PointsController extends Controller
             'title' => 'Map',
         ];
 
-        return view ('map', $data);
+        return view('map', $data);
     }
 
     /**
@@ -44,6 +44,7 @@ class PointsController extends Controller
                 'name' => 'required|unique:points,name',
                 'description' => 'required',
                 'geom_point' => 'required',
+                'image' => 'nullable|mimes:jpg,jpeg,png|max:1024',
             ],
             [
                 'name.required' => 'Name is required',
@@ -52,11 +53,25 @@ class PointsController extends Controller
                 'geom_point.required' => 'Location is required',
             ]
         );
+        //Create images directory if not exists
+        if (!is_dir('storage/images')) {
+            mkdir('./storage/images', 0777);
+        }
+
+        //Get image file
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name_image = time() . "_point." . strtolower($image->getClientOriginalExtension());
+            $image->move('storage/images', $name_image);
+        } else {
+            $name_image = null;
+        }
 
         $data = [
             'geom' => $request->geom_point,
             'name' => $request->name,
             'description' => $request->description,
+            'image' => $name_image,
         ];
 
         //Create Data
@@ -66,7 +81,6 @@ class PointsController extends Controller
 
         //Redirect to map
         return redirect()->route('map')->with('success', 'Point has been added');
-
     }
 
     /**
