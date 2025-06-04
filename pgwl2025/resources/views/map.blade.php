@@ -248,26 +248,31 @@
                 var routeedit = "{{ route('points.edit', ':id') }}";
                 routeedit = routeedit.replace(':id', feature.properties.id);
 
-                var popupContent = "Nama: " + feature.properties.name + "<br>" +
+                var popupContent =
+                    "Nama: " + feature.properties.name + "<br>" +
                     "Deskripsi: " + feature.properties.description + "<br>" +
-                    "Dibuat: " + feature.properties.created_at + "<br>" +
-                    "ini tes: " + feature.properties.created_at + "<br>" +
+                    "Dibuat pada: " + feature.properties.created_at + "<br>" +
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
-                    "' width='250' alt=''>" + "<br>" +
-
-                    "<div class='row mt-4'>" +
+                    "' width='250' alt=''><br>" +
+                    "<div class='row mt-3'>" +
                     "<div class='col-6 text-end'>" +
-                    "<a href='" + routeedit +
-                    "' class='btn btn-warning brn-sm'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm'>" +
+                    "<i class='fa-solid fa-pen-to-square'></i>" +
+                    "</a>" +
                     "</div>" +
                     "<div class='col-6'>" +
+                    "<form method='POST' action='" + routedelete +
+                    "' onsubmit='return confirm(\"Yakin mau dihapus?\")'>" +
+                    "<input type='hidden' name='_token' value='{{ csrf_token() }}'>" +
+                    "<input type='hidden' name='_method' value='DELETE'>" +
+                    "<button type='submit' class='btn btn-sm btn-danger'>" +
+                    "<i class='fa-solid fa-trash'></i>" +
+                    "</button>" +
+                    "</form>" +
+                    "</div>" +
+                    "</div>" +
+                    "<p class='mt-2'><strong>Dibuat Oleh:</strong> " + feature.properties.user_created + "</p>";
 
-                    "<form method='POST' action='" + routedelete + "'>" +
-                    '@csrf' + '@method('DELETE')' +
-                    "<button type='submit' class= 'btn btn-sm btn-danger'onclick='return confirm(`Yakin mau dihapuss?`)'><i class='fa-solid fa-trash'></i></button>"
-                "</form>" +
-                "</div>" +
-                "</div>";
 
                 layer.on({
                     click: function(e) {
@@ -296,26 +301,40 @@
                 routeedit = routeedit.replace(':id', feature.properties.id);
 
 
-                var popupContent = "Nama: " + feature.properties.name + "<br>" +
-                    "Deskripsi: " + feature.properties.description + "<br>" +
-                    "Panjang: " + feature.properties.length_km.toFixed(2) + " km" + "<br>" +
-                    "Dibuat: " + feature.properties.created_at + "<br>" +
+                var popupContent =
+                    "<div style='max-width: 270px; font-size: 14px;'>" +
+                    "<p><strong>Nama:</strong> " + feature.properties.name + "</p>" +
+                    "<p><strong>Deskripsi:</strong> " + feature.properties.description + "</p>" +
+                    "<p><strong>Panjang:</strong> " + feature.properties.length_km.toFixed(2) + " km</p>" +
+                    "<p><strong>Dibuat:</strong> " + feature.properties.created_at + "</p>" +
+
+                    "<div class='text-center mb-2'>" +
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
-                    "' width='250' alt=''>" + "<br>" +
+                    "' width='100%' alt='Gambar'>" +
+                    "</div>" +
 
-
-                    "<div class='row mt-4'>" +
-                    "<div class='col-6 text-end'>" +
-                    "<a href='" + routeedit +
-                    "' class='btn btn-warning brn-sm'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                    "<div class='row text-center mb-2'>" +
+                    "<div class='col-6'>" +
+                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm w-100'>" +
+                    "<i class='fa-solid fa-pen-to-square'></i>" +
+                    "</a>" +
                     "</div>" +
                     "<div class='col-6'>" +
+                    "<form method='POST' action='" + routedelete +
+                    "' onsubmit='return confirm(\"Yakin mau dihapus?\")'>" +
+                    "<input type='hidden' name='_token' value='{{ csrf_token() }}'>" +
+                    "<input type='hidden' name='_method' value='DELETE'>" +
+                    "<button type='submit' class='btn btn-sm btn-danger w-100'>" +
+                    "<i class='fa-solid fa-trash'></i>" +
+                    "</button>" +
+                    "</form>" +
+                    "</div>" +
+                    "</div>" +
 
+                    "<p class='mt-2'><strong>Dibuat Oleh:</strong> " + feature.properties.user_created +
+                    "</p>" +
+                    "</div>";
 
-                    "<form method='POST' action='" + routedelete + "'>" +
-                    '@csrf' + '@method('DELETE')' +
-                    "<button type='submit' class= 'btn btn-sm btn-danger'onclick='return confirm(`Yakin mau dihapuss?`)'><i class='fa-solid fa-trash'></i></button>"
-                "</form>";
                 layer.on({
                     click: function(e) {
                         polyline.bindPopup(popupContent);
@@ -341,25 +360,40 @@
                 var routeedit = "{{ route('polygon.edit', ':id') }}";
                 routeedit = routeedit.replace(':id', feature.properties.id);
 
-                var popupContent = "Nama: " + feature.properties.name + "<br>" +
-                    "Deskripsi: " + feature.properties.description + "<br>" +
-                    "Luas: " + feature.properties.luas_hektar.toFixed(2) + " hektar" + "<br>" +
-                    "Dibuat: " + feature.properties.created_at + "<br>" +
+                var popupContent =
+                    "<div style='max-width: 270px; font-size: 14px;'>" +
+                    "<p><strong>Nama:</strong> " + feature.properties.name + "</p>" +
+                    "<p><strong>Deskripsi:</strong> " + feature.properties.description + "</p>" +
+                    "<p><strong>Luas:</strong> " + feature.properties.luas_hektar.toFixed(2) + " hektar</p>" +
+                    "<p><strong>Dibuat:</strong> " + feature.properties.created_at + "</p>" +
+
+                    "<div class='text-center mb-2'>" +
                     "<img src='{{ asset('storage/images') }}/" + feature.properties.image +
-                    "' width='250' alt=''>" + "<br>" +
+                    "' width='100%' alt='Gambar'>" +
+                    "</div>" +
 
-
-                    "<div class='row mt-4'>" +
-                    "<div class='col-6 text-end'>" +
-                    "<a href='" + routeedit +
-                    "' class='btn btn-warning brn-sm'><i class='fa-solid fa-pen-to-square'></i></a>" +
+                    "<div class='row text-center mb-2'>" +
+                    "<div class='col-6'>" +
+                    "<a href='" + routeedit + "' class='btn btn-warning btn-sm w-100'>" +
+                    "<i class='fa-solid fa-pen-to-square'></i>" +
+                    "</a>" +
                     "</div>" +
                     "<div class='col-6'>" +
-                
-                    "<form method='POST' action='" + routedelete + "'>" +
-                    '@csrf' + '@method('DELETE')' +
-                    "<button type='submit' class= 'btn btn-sm btn-danger'onclick='return confirm(`Yakin mau dihapuss?`)'><i class='fa-solid fa-trash'></i></button>"
-                "</form>";
+                    "<form method='POST' action='" + routedelete +
+                    "' onsubmit='return confirm(\"Yakin mau dihapus?\")'>" +
+                    "<input type='hidden' name='_token' value='{{ csrf_token() }}'>" +
+                    "<input type='hidden' name='_method' value='DELETE'>" +
+                    "<button type='submit' class='btn btn-sm btn-danger w-100'>" +
+                    "<i class='fa-solid fa-trash'></i>" +
+                    "</button>" +
+                    "</form>" +
+                    "</div>" +
+                    "</div>" +
+
+                    "<p class='mt-2'><strong>Dibuat Oleh:</strong> " + feature.properties.user_created +
+                    "</p>" +
+                    "</div>";
+
                 layer.on({
                     click: function(e) {
                         polygon.bindPopup(popupContent);
