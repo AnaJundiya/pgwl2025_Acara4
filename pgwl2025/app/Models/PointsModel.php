@@ -38,6 +38,7 @@ class PointsModel extends Model
                     'updated_at' => $point->updated_at,
                     'user_id' => $point->user_id,
                     'user_created' => $point->user_created,
+
                 ],
             ];
 
@@ -73,6 +74,7 @@ class PointsModel extends Model
                     'created_at' => $point->created_at,
                     'updated_at' => $point->updated_at,
                     'user_id' => $point->user_id,
+
                 ],
             ];
 
